@@ -1,0 +1,130 @@
+/* Basic Reset */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  font-family: Arial, sans-serif;
+  background-color: #f4f4f9;
+  color: #333;
+}
+
+/* Container for the entire game */
+.game-container {
+  width: 90%;
+  max-width: 400px;
+  text-align: center;
+  padding: 20px;
+  border: 2px solid #333;
+  border-radius: 12px;
+  background-color: #fff;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Heading Style */
+h1 {
+  font-size: 1.5em;
+  margin-bottom: 20px;
+  color: #444;
+}
+
+/* Timer Section Styling */
+.timer-section {
+  margin-bottom: 20px;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  background-color: #f9f9f9;
+}
+
+/* Question Section Styling */
+.question-section {
+  margin-bottom: 20px;
+  padding: 15px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  background-color: #f9f9f9;
+}
+
+.question-text {
+  font-size: 1.1em;
+  margin-bottom: 10px;
+}
+
+.question-image {
+  max-width: 100%;
+  height: auto;
+  border-radius: 8px;
+}
+
+/* Button Section Styling */
+.response-buttons {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+}
+
+.response-buttons button {
+  flex: 1;
+  padding: 10px;
+  font-size: 1em;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  color: #fff;
+}
+
+.response-buttons button:first-child {
+  background-color: #e74c3c; /* Red for "Yes" button */
+}
+
+.response-buttons button:last-child {
+  background-color: #3498db; /* Blue for "No" button */
+}
+
+.response-buttons button:hover {
+  opacity: 0.9;
+}
+
+/* Retry Button Styling */
+button[onclick="initGame()"] {
+  background-color: #880f92;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 12px 25px;
+  font-size: 1em;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  margin-top: 15px;
+}
+
+button[onclick="initGame()"]:hover {
+  background-color: #880f92;
+}
+
+/* Responsive Adjustments */
+@media (min-width: 600px) {
+  .game-container {
+    padding: 30px;
+  }
+
+  h1 {
+    font-size: 2em;
+  }
+
+  #question-text {
+    font-size: 1.3em;
+  }
+
+  .response-buttons button {
+    font-size: 1.1em;
+  }
+}
