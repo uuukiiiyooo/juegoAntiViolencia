@@ -3,37 +3,37 @@ const questions = [
   {
     id: "question01",
     text: "Criticarme constantemente.",
-    imgSrc: "img/image01.jpg", // Replace with actual image URL or path
+    imgSrc: "img/image01.jpg",
     isViolence: true
   },
   {
     id: "question02",
     text: "Destino tiempo a descansar cuando trabajo duro.",
-    imgSrc: "img/image02.jpg", // Replace with actual image URL or path
+    imgSrc: "img/image02.jpg",
     isViolence: false
   },
   {
     id: "question03",
     text: "Soy demasiado durx conmigo cuando cometo errores.",
-    imgSrc: "img/image03.jpg", // Replace with actual image URL or path
+    imgSrc: "img/image03.jpg",
     isViolence: true
   },
   {
     id: "question04",
     text: "Enfocarme y valorar lo bueno en mí.",
-    imgSrc: "img/image04.jpg", // Replace with actual image URL or path
+    imgSrc: "img/image04.jpg",
     isViolence: false
   },
   {
     id: "question05",
     text: "Organizo y calendarizo mis pendientes",
-    imgSrc: "img/image05.jpg", // Replace with actual image URL or path
+    imgSrc: "img/image05.jpg",
     isViolence: false
   },
   {
     id: "question06",
     text: "Compararme negativamente con otrxs.",
-    imgSrc: "img/image06.jpg", // Replace with actual image URL or path
+    imgSrc: "img/image06.jpg",
     isViolence: true
   }
 ];
@@ -44,34 +44,31 @@ let score = 0;
 let timer = 30; // 30 seconds timer
 let timerInterval;
 
+// Scaling factor to reach a max score of 1 million points
+const correctAnswerPoints = 21;
+const timeBonusRate = 3;
+const maxQuestions = questions.length;
+const maxTime = 30;
+const maxCorrectScore = correctAnswerPoints * maxQuestions;
+const maxTimeBonus = timeBonusRate * maxTime;
+const scalingMultiplier = 1250000 / (maxCorrectScore + maxTimeBonus);
+
 // Initialize Game
 function initGame() {
+  // Reset score and timer at the start
   score = 0;
   currentQuestionIndex = 0;
-  timer = 30; // Reset timer to 30 seconds at the start
+  timer = 30;
   document.querySelector(".game-container").innerHTML = `
     <h1>¿Es violencia psicológica?</h1>
     <div class="timer-section">
       <p>Tiempo: <span id="timer">30</span> segundos</p>
     </div>
     <div class="question-section">
-      <p id="question01" class="question-text" style="display: none;"></p>
-      <img id="question01" class="question-image" src="" alt="Imagen de referencia" style="display: none;">
-      
-      <p id="question02" class="question-text" style="display: none;"></p>
-      <img id="question02" class="question-image" src="" alt="Imagen de referencia" style="display: none;">
-      
-      <p id="question03" class="question-text" style="display: none;"></p>
-      <img id="question03" class="question-image" src="" alt="Imagen de referencia" style="display: none;">
-      
-      <p id="question04" class="question-text" style="display: none;"></p>
-      <img id="question04" class="question-image" src="" alt="Imagen de referencia" style="display: none;">
-
-      <p id="question05" class="question-text" style="display: none;"></p>
-      <img id="question05" class="question-image" src="" alt="Imagen de referencia" style="display: none;">
-
-      <p id="question06" class="question-text" style="display: none;"></p>
-      <img id="question06" class="question-image" src="" alt="Imagen de referencia" style="display: none;">
+      ${questions.map((q) => `
+        <p id="${q.id}" class="question-text" style="display: none;"></p>
+        <img id="${q.id}-img" class="question-image" src="" alt="Imagen de referencia" style="display: none;">
+      `).join("")}
     </div>
     <div class="response-buttons">
       <button onclick="answerQuestion(true)">Sí, es violencia</button>
@@ -102,13 +99,13 @@ function displayQuestion(index) {
   // Hide all questions
   questions.forEach((question) => {
     document.getElementById(question.id).style.display = "none";
-    document.getElementById(question.id).nextElementSibling.style.display = "none"; // Hide associated image
+    document.getElementById(`${question.id}-img`).style.display = "none"; // Hide associated image
   });
 
   // Show current question text and image
   const question = questions[index];
   const questionText = document.getElementById(question.id);
-  const questionImage = questionText.nextElementSibling;
+  const questionImage = document.getElementById(`${question.id}-img`);
 
   questionText.textContent = question.text;
   questionImage.src = question.imgSrc;
@@ -124,7 +121,7 @@ function answerQuestion(userAnswer) {
 
   // Check if the answer is correct
   if (userAnswer === currentQuestion.isViolence) {
-    score += 10; // Add 10 points for correct answer
+    score += correctAnswerPoints; // Add points for correct answer
   }
 
   // Move to the next question
@@ -139,9 +136,17 @@ function answerQuestion(userAnswer) {
 
 // End Game - Display Final Score and Retry Button
 function endGame() {
+  // Calculate time bonus based on remaining time
+  const timeBonus = timer * timeBonusRate;
+  
+  // Calculate the scaled final score
+  const finalScore = Math.floor((score + timeBonus) * scalingMultiplier);
+
   document.querySelector(".game-container").innerHTML = `
     <h2>¡Juego terminado!</h2>
-    <p>Puntaje final: <span>${score}</span> puntos</p>
+    <br />
+    <p>Bonus de tiempo: <span>${Math.floor(timeBonus * scalingMultiplier).toLocaleString()}</span> puntos</p>
+    <p>Puntaje final: <span>${finalScore.toLocaleString()}</span> puntos</p>
     <button onclick="initGame()">Reintentar</button>
   `;
 }
