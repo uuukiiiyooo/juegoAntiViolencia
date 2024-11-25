@@ -26,7 +26,7 @@ const questions = [
   },
   {
     id: "question05",
-    text: "Organizo y calendarizo mis pendientes",
+    text: "Organizo y calendarizo mis pendientes.",
     imgSrc: "img/image05.jpg",
     isViolence: false
   },
@@ -35,7 +35,7 @@ const questions = [
     text: "Compararme negativamente con otrxs.",
     imgSrc: "img/image06.jpg",
     isViolence: true
-  }
+  },
 ];
 
 // Track Current Question, Score, and Timer
@@ -46,12 +46,29 @@ let timerInterval;
 
 // Scaling factor to reach a max score of 1 million points
 const correctAnswerPoints = 21;
-const timeBonusRate = 3;
+const timeBonusRate = 1.5;
 const maxQuestions = questions.length;
 const maxTime = 30;
 const maxCorrectScore = correctAnswerPoints * maxQuestions;
 const maxTimeBonus = timeBonusRate * maxTime;
-const scalingMultiplier = 1250000 / (maxCorrectScore + maxTimeBonus);
+const scalingMultiplier = 2160000 / (maxCorrectScore + maxTimeBonus);
+
+// Utility function to shuffle the question array
+function shuffleQuestions(array) {
+  for (let i= array.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i +1));
+    [array[i], array[j]] = [array[j], array[i]]; //swap elements
+  }
+}
+
+//Display Welcome screen
+function displayWelcomeScreen() {
+  document.querySelector(".game-container").innerHTML = `
+  <h1>¡Bienvenidx!</h1>
+  <p>Puntaje máximo: 2,160,000</p>
+  <button onclick="initGame()">Comenzar juego</button>
+  `;
+}
 
 // Initialize Game
 function initGame() {
@@ -59,6 +76,9 @@ function initGame() {
   score = 0;
   currentQuestionIndex = 0;
   timer = 30;
+
+  shuffleQuestions(questions);
+
   document.querySelector(".game-container").innerHTML = `
     <h1>¿Es violencia psicológica?</h1>
     <div class="timer-section">
@@ -145,11 +165,18 @@ function endGame() {
   document.querySelector(".game-container").innerHTML = `
     <h2>¡Juego terminado!</h2>
     <br />
-    <p>Bonus de tiempo: <span>${Math.floor(timeBonus * scalingMultiplier).toLocaleString()}</span> puntos</p>
-    <p>Puntaje final: <span>${finalScore.toLocaleString()}</span> puntos</p>
+    <p>Puntos por respuestas correctas:</p>
+    <p><span>${Math.floor(score * scalingMultiplier).toLocaleString()}</span> puntos</p>
+    <br />
+    <p>Bonus de tiempo:</p>
+    <p><span>${Math.floor(timeBonus * scalingMultiplier).toLocaleString()}</span> puntos</p>
+    <br />
+    <br />
+    <p>Puntaje final:</p>
+    <p><span>${finalScore.toLocaleString()}</span> puntos</p>
     <button onclick="initGame()">Reintentar</button>
   `;
 }
 
 // Start Game on Load
-window.onload = initGame;
+window.onload = displayWelcomeScreen;
