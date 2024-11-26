@@ -36,6 +36,30 @@ const questions = [
     imgSrc: "img/image06.jpg",
     isViolence: true
   },
+  {
+    id: "question07",
+    text: 'Ignorar mis logros porque "no son suficientes".',
+    imgSrc: "img/image07.jpg",
+    isViolence: true
+  },
+  {
+    id: "question08",
+    text: "Aceptar que no todo tiene que ser perfecto.",
+    imgSrc: "img/image08.jpg",
+    isViolence: false
+  },
+  {
+    id: "question09",
+    text: "Culparme por cosas fuera de mi control.",
+    imgSrc: "img/image09.jpg",
+    isViolence: true
+  },
+  {
+    id: "question10",
+    text: "Pedirme disculpas cuando me doy cuenta de que fui muy durx conmigo mismx.",
+    imgSrc: "img/image10.jpg",
+    isViolence: false
+  },
 ];
 
 // Track Current Question, Score, and Timer
